@@ -71,8 +71,6 @@ class ViewController: UIViewController {
         
         refillScrollView(sView: scrollView)
         
-        
-        
     }
     
     @objc func show2Bs(sender: UIButton) {
@@ -100,9 +98,10 @@ class ViewController: UIViewController {
             subview.removeFromSuperview()
         }
         
-        var originX : CGFloat = 0
-        var originY : CGFloat = 0
-        let cellLength : CGFloat = fSW/3
+        var originX : CGFloat = 10
+        var originY : CGFloat = 10
+        let cellSpacing : CGFloat = 10
+        let cellLength : CGFloat = (fSW - cellSpacing*4) / 3
         
         for i in 0..<imageArray.count {
             
@@ -123,18 +122,20 @@ class ViewController: UIViewController {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toBigView(gesture:)))  //Tap function will call when user tap on button
             let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(deleteCell(gesture:)))  //Long function will call when user long press on button.
             tapGesture.numberOfTapsRequired = 1
-            longGesture.minimumPressDuration = 1.2
+            longGesture.minimumPressDuration = 0.8
             nextIB.addGestureRecognizer(tapGesture)
             nextIB.addGestureRecognizer(longGesture)
             
             if (i+1)%3 == 0 {
-                originY += cellLength
-                originX = 0
+                originY += cellLength + cellSpacing
+                originX = cellSpacing
             }else{
-                originX += cellLength
+                originX += cellLength + cellSpacing
             }
             
         }
+        
+        scrollView.contentSize = CGSize(width: fSW, height: originY + cellLength + cellSpacing)
         
     }
     
